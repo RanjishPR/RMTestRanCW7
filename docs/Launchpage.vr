@@ -1,0 +1,14 @@
+[VALIDATE_1]
+###Rule
+single-choice
+
+###Question
+Why is the index file in this tutorial called launchpage.html instead of index.html?
+
+###Match
+[x] Because when running `cds watch`, an index.html file replaces the default page
+[ ] Because by convention, it should be called launchpage when displaying multiple apps
+[ ] Because calling a file index.html is not allowed
+[ ] Because launchpage.html is the only allowed filename
+
+[VALIDATE_1]

@@ -1,0 +1,110 @@
+#!/bin/bash
+
+set -e
+
+source "$(dirname $0)/lib/var.sourceme"
+
+CLEAN=true
+
+mkdir -p tmp
+cd tmp
+TMP="$(pwd)"
+rm -rf legal
+
+REPOSITORY="$1"
+if [ "$REPOSITORY" == "" ]; then
+    REPOSITORY="$(git remote get-url origin)"
+fi
+
+if [ "$CLEAN" != "" ]; then
+    rm -rf repo
+    rm -rf external-repo
+
+    EXTERNAL_REPOSITORY="${REPOSITORY%.git}-external"
+    git clone $GIT_CREDENTIALS_CONFIG "$REPOSITORY" repo
+    git clone $GIT_CREDENTIALS_CONFIG "$EXTERNAL_REPOSITORY" external-repo
+fi
+
+function files() {
+    ls -1A | grep -vE '.git$'
+}
+
+if [ "$DELETE_BRANCHES" == "true" ]; then
+    cd $TMP/external-repo
+    if [ "$(git remote get-url origin)" != "https://github.tools.sap/CPES/CPAppDevelopment-external.git" ]; then
+        echo "[ERROR] Only the repository for external publishing may be deleted"
+        exit 1
+    fi
+    echo "Deleting branches of external repository:"
+    for i in $(git for-each-ref --format='%(refname:short)' refs/remotes/origin | cut -f 2- -d "/"); do
+        if [ "$i" == "HEAD" ]; then
+            echo "  skipping HEAD"
+        elif [ "$i" == "master" ]; then
+            git checkout --orphan new-master
+            git rm -rf .
+            echo >README.md "TBD"
+            git add .
+            git commit -m "Initial Commit"
+            git push -f origin new-master:master
+        else
+            echo "  delete \"$i\""
+            git push origin --delete $i
+        fi
+    done
+    exit 0
+fi
+
+for BRANCH_INFO in master $(cat $TMP/src/external/EXAMPLES); do
+    branch=$(echo "$BRANCH_INFO:" | cut -f1 -d:)
+    BASE_BRANCH=$(echo "$BRANCH_INFO:" | cut -f2 -d:)
+    echo
+    echo
+    echo "[INFO] Processing branch $branch (base: $BASE_BRANCH)"
+    echo
+    cd "$TMP/external-repo"
+    if ! git checkout $branch; then
+        # Create new orphan branch
+        git checkout --orphan $branch
+    fi
+    # Delete files if there are any
+    if [ "$(files)" != "" ]; then
+        git rm -rf .
+    fi
+
+    cd "$TMP/repo"
+    git checkout $branch
+
+    if [ "$branch" == "master" ]; then
+        echo "Copying external docs files"
+        mkdir -p ../external-repo/docs
+        cp -r $TMP/gen/external/. ../external-repo
+
+        # Store legal for following branches
+        set -x
+        mkdir $TMP/legal
+        cp -r ../external-repo/README.md ../external-repo/.reuse ../external-repo/LICENSES ../external-repo/LICENSE $TMP/legal
+    else
+        echo "Copying files $(files)"
+        cp -r $(files) ../external-repo
+        cp -r $TMP/legal/. ../external-repo/
+        export branch
+        perl <$TMP/legal/README.md -p -i -e 's/<branch>/$ENV{branch}/' >../external-repo/README.md
+    fi
+
+    cd ../external-repo
+    if [ -f .tutorial-ignore ]; then
+        # Add to ignore content -> do not publish
+        echo >>.gitignore
+        cat .tutorial-ignore >>.gitignore
+    fi
+    git add .
+    echo
+    if [ "$(git status --porcelain)" == "" ]; then
+        echo "[INFO] Nothing to commit"
+    else
+        git commit -m "Update $(date)"
+        if [ "$NO_PUSH" == "" ]; then
+            git push --set-upstream origin "$branch"
+        fi
+    fi
+done

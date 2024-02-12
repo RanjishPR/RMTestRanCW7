@@ -1,0 +1,13 @@
+#!/bin/bash
+
+if [ "$1" == "-h" -o "$1" == "--help" -o "$1" == "" ]; then
+    echo "Usage: $0 BRANCH"
+    echo ""
+    echo "Copy changes from different branch"
+fi
+
+BRANCH="$1"
+
+git diff --name-only HEAD "$BRANCH" | xargs rm -f -r
+git diff --name-only HEAD "$BRANCH" | xargs -n 1 git checkout "$BRANCH"
+git diff --name-only HEAD "$BRANCH" | xargs git add

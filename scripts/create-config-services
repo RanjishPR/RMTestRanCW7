@@ -1,0 +1,25 @@
+#!/bin/bash
+
+set -e
+
+CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+git checkout --orphan config/services
+git rm -rf .
+mkdir -p production-services/build-service-nova
+cat >production-services/build-service-nova/config.yml <<EOF
+attributes:
+  milestonestaging: true
+  releasestaging: true
+  prepareDeployPackage: true
+  enable_new_staging: true
+  NoPRJobs: true
+  NoCIJobs: true
+  UpdateGitSubmodules: true
+branches:
+  - Branch: master
+    Type: GITHUB_DEV
+EOF
+git add production-services/build-service-nova/config.yml
+git commit -m "XMake configuration"
+git push --set-upstream origin config/services
+git checkout "$CURRENT_BRANCH"

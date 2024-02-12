@@ -1,0 +1,11 @@
+#!/bin/bash
+
+INTERNAL_DEV_REPO=https://github.tools.sap/CPES/CPAppDevelopment-dev
+INTERNAL_VAL_REPO=https://github.tools.sap/CPES/CPAppDevelopment-val
+INTERNAL_REL_REPO=https://github.tools.sap/CPES/CPAppDevelopment
+
+EXTERNAL_DEV_REPO=https://github.tools.sap/CPES/CPAppDevelopment-dev-external
+EXTERNAL_VAL_REPO=https://github.tools.sap/CPES/CPAppDevelopment-val-external
+EXTERNAL_REL_REPO=https://github.tools.sap/CPES/CPAppDevelopment-external
+
+GITHUB_REPO=https://github.com/SAP-samples/cloud-cap-risk-management

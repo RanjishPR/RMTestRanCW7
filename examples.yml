@@ -1,0 +1,321 @@
+examples:
+  - description: Initial CAP Service
+    external: true
+    branch: create-cap-application
+    doc: 'Create-CAP-Application'
+    build:
+      - "cds -v 2>&1 | grep '@sap/cds-dk: 3'"
+      - cds init --force
+      - sed -i '' s/CPAppDevelopment-app/cpapp/ package.json
+      - echo -e >>.gitignore "# Do not lock packages in the tutorial\n\npackage-lock.json"
+      - git add README.md package.json .gitignore .vscode/launch.json .vscode/extensions.json .vscode/settings.json .vscode/tasks.json .cdsrc.json .eslintrc
+    vars:
+     - name: appName
+       type: input
+       message: The name of the application
+       exampleValue: RiskManagement
+     - name: appPrefix
+       type: input
+       message: The short name of the application (used as prefix)
+       exampleValue: cpapp
+     - name: schema
+       type: input
+       message: The name of the CAP schema
+       exampleValue: sap.ui.riskmanagement
+     - name: service
+       type: input
+       message: The name of the CAP service
+       exampleValue: RiskService
+     - name: masterEntities
+       type: calculated
+       message: The name of the master entity (plural)
+       exampleValue: Risks
+     - name: masterEntity
+       type: input
+       message: The name of the master entity
+       exampleValue: Risk
+     - name: subEntities
+       type: calculated
+       message: The name of the sub entity of the application (pluar)
+       exampleValue: Mitigations
+     - name: subEntity
+       type: input
+       message: The name of the sub entity of the application
+       exampleValue: Mitigations
+    files:
+      - srv/risk-service.cds
+      - db/schema.cds
+      - db/data/sap.ui.riskmanagement-Risks.csv
+      - db/data/sap.ui.riskmanagement-Mitigations.csv
+  - description: Fiori Elements
+    external: true
+    branch: create-ui-fiori-elements
+    baseBranch: create-cap-application
+    doc: 'Create-UI-Fiori-Elements'
+    files:
+      - srv/risks-service-ui.cds
+  - description: CAP Business Logic
+    external: true
+    branch: cap-business-logic
+    baseBranch: create-ui-fiori-elements
+    doc: 'CAP-Business-Logic'
+    files:
+      - srv/risk-service.js
+  - description: UI5 Freestyle App
+    external: true
+    branch: create-ui-freestyle-sapui5
+    baseBranch: cap-business-logic
+    doc: 'Create-UI-Freestyle-SAPUI5'
+  - description: Launchpage
+    external: true
+    branch: launchpage
+    baseBranch: create-ui-freestyle-sapui5
+    doc: 'Launchpage'
+#  - description: Kyma
+#    external: true
+#    branch: kyma/app
+#    baseBranch: launchpage
+#    doc: 'Kyma'
+#  - description: "Kyma Auth<br/>(TUTORIAL IN PROGRESS)"
+#    branch: kyma/auth
+#    baseBranch: kyma/app
+#    doc: 'KymaAuth'
+#  - description: Kyma SaaS - Initial
+#    branch: kyma/saas-initial
+#    baseBranch: kyma/app
+#    build:
+#      - git rm -r --cached .
+#      - git ls-files --with-tree kyma/app | xargs -n 1 -I X bash -c 'git show >X kyma/app:X'
+#      - git ls-files --with-tree kyma/app | xargs -n 1 perl -pi -e "s/cpapp/cpsaasapp/g"
+#      - git ls-files --with-tree kyma/app | xargs git add
+#  - description: "Kyma SaaS<br/>(TUTORIAL IN PROGRESS)"
+#    branch: kyma/saas
+#    baseBranch: kyma/saas-initial
+#    doc: 'KymaSaaS'
+  - description: Create an SAP Fiori Elements-Based Analytical UI for your CAP Application
+    external: true
+    branch: analytics
+    baseBranch: cap-roles
+    doc: Analytics-Setup-Use
+    files: 
+      - srv/risk-analysis-service.cds
+      - srv/risk-analysis-service-ui.cds
+      - db/data/sap.ui.riskmanagement-Risks.csv
+  - description: Roles and Authorization Checks
+    external: true
+    branch: cap-roles
+    baseBranch: launchpage
+    doc: CAP-Roles
+  - description: SAP HANA Cloud Setup
+    external: true
+    branch: hana-cloud-setup
+    baseBranch: cap-roles
+    doc: HANA-Cloud-Setup
+  - description: Prepare XSUAA Setup
+    external: true
+    doc: Prepare-XSUAA
+    branch: prepare-xsuaa
+    baseBranch: hana-cloud-setup
+    files:
+      - xs-security.json
+  # - description: Deployment using cf push (Generated Files)
+  #   branch: deployment/cf-push-generated
+  #   baseBranch: prepare-xsuaa
+  #   build:
+  #     - git merge cp/roles
+  #     - rm -f manifest.yml services-manifest.yml
+  #     - cds add cf-manifest
+  #     - git add manifest.yml services-manifest.yml
+  # - description: Deployment using cf push
+  #   branch: deployment/cf-push
+  #   baseBranch: deployment/cf-push-generated
+  #   doc: CF_Push_Deployment
+  # - description: Deployment using MultiApps (Generated Files)
+  #   branch: deployment/mta-generated
+  #   baseBranch: cp/roles
+  #   build:
+  #     - git merge cp/roles
+  #     - rm -f mta.yaml
+  #     - cds add mta
+  #     - git add mta.yaml
+  - description: Deployment using MultiApps
+    external: true
+    branch: cap-mta-deployment
+    baseBranch: prepare-xsuaa
+    doc: CAP-MTA-Deployment
+#  - description: Launchpad Service (Preparations)
+#    branch: launchpad-service-prep
+#    baseBranch: mta
+#    snippetsDoc: Launchpad-Service
+  - description: Launchpad Service
+    external: true
+    branch: launchpad-service
+    baseBranch: cap-mta-deployment
+    doc: Launchpad-Service
+  - description: Logging
+    external: true
+    branch: logging
+    baseBranch: launchpad-service
+    doc: Logging
+#  - description: Launchpad Service
+#    branch: saas-app-external
+#    baseBranch: launchpad-service
+#    doc: SaaS_External
+#  - description: Launchpad Service
+#    branch: saas-sb-external
+#    baseBranch: launchpad-service
+#    doc: SaaS_SB_External
+
+  - description: Add Helm Chart
+    external: true
+    branch: kyma-add-helm-chart
+    baseBranch: prepare-xsuaa
+    doc: Kyma-Add-Helm-Chart
+    files:
+     - scripts/**
+  - description: Launchpad Service (Kyma)
+    external: true
+    branch: kyma-launchpad-service
+    baseBranch: kyma-add-helm-chart
+    doc: Kyma-Launchpad-Service
+
+#
+# New names for branches & doc for external service
+#
+  - description: Add External Service
+    external: true
+    branch: ext-service-add-consumption
+    baseBranch: logging
+    doc: 'Ext-Service-Add-Consumption'
+    files:
+     - srv/external/API_BUSINESS_PARTNER.edmx
+     - srv/external/data/API_BUSINESS_PARTNER-A_BusinessPartner.csv
+
+  - description: Show Fields from External Service in Your UI
+    external: true
+    branch: ext-service-consume-ui
+    baseBranch: ext-service-add-consumption
+    doc: 'Ext-Service-Consume-UI'
+    files:
+     - db/data/sap.ui.riskmanagement-Risks.csv
+
+  - description: Use SAP S/4HANA Cloud Service
+    external: true
+    branch: ext-service-s4hc-use
+    baseBranch: ext-service-consume-ui
+    doc: 'Ext-Service-S4HC-Use'
+    files:
+     - bupa-service-config.json
+
+  - description: Add a UI for Suppliers
+    external: true
+    branch: ext-service-s4hc-suppliers-ui
+    baseBranch: ext-service-s4hc-use
+
+  - description: Add a UI for Suppliers (Java)
+    external: true
+    branch: ext-service-s4hc-suppliers-ui-java
+    baseBranch: ext-service-s4hc-suppliers-ui
+
+  - description: Consume an External Service from S/4HANA
+    external: true
+    branch: ext-service-s4hana-consume
+    baseBranch: ext-service-consume-ui
+    doc: 'Ext-Service-S4HANA-Consume'
+
+  - description: Setup Your CAP Application for Eventing
+    external: true
+    branch: events-s4hc-use
+    baseBranch: ext-service-s4hc-use
+    doc: 'Events-App-Setup-S4HC'
+    files:
+     - srv/external/API_BUSINESS_PARTNER.js
+     - srv/external/API_BUSINESS_PARTNER-extended.cds
+     - db/data/sap.ui.riskmanagement-StatusValues.csv
+     - srv/risk-service-ui.cds
+
+#   - description: Deployment using MultiApps (for Portal)
+#     branch: deployment/mta
+#     baseBranch: deployment/mta-generated
+#     doc: MTA_Deployment
+
+#   - description: Portal
+#     branch: portal/service
+#     baseBranch: cp/roles
+#     doc: Portal
+#     files:
+#       - portal-content/package.json
+#       - portal-content/portal-site/CommonDataModel.json
+#       - portal-content/portal-site/i18n/defaultCatalogId.properties
+#       - portal-content/portal-site/i18n/defaultGroupId.properties
+#       - ui-deployer/package.json
+
+# # Workflow
+#   - description: Workflow
+#     branch: workflow
+#     baseBranch: portal/service
+#     doc: Workflow
+#     files:
+#       - workflow-content/scripts/**
+#       - workflow-content/webcontent/**
+
+
+#
+# Old names for branches & doc for external service
+#
+  # - description: API Hub Consumption
+  #   branch: cap/api-hub
+  #   baseBranch: portal/service
+  #   doc: 'Ext_Service'
+  #   files:
+  #    - srv/external/API_BUSINESS_PARTNER.edmx
+  #    - srv/external/data/API_BUSINESS_PARTNER-A_BusinessPartner.csv
+  #    - default-env.json
+  # - description: API Hub Consumption
+  #   branch: cap/api-hub-ui
+  #   baseBranch: cap/api-hub
+  #   doc: 'Consume_Ext'
+  #   files:
+  #    - srv/external/API_BUSINESS_PARTNER.edmx
+  #    - srv/external/data/API_BUSINESS_PARTNER-A_BusinessPartner.csv
+  #    - default-env.json
+  # - description: Value Help
+  #   branch: cap/api-hub-value-help
+  #   baseBranch: cap/api-hub-ui
+  #   doc: 'Value_Help'
+  #   files:
+  #    - db/data/sap.ui.riskmanagement-Risks.csv
+
+
+  # - description: Connectivity Service
+  #   branch: cp/connectivity-service
+  #   baseBranch: cap/api-hub-value-help
+  #   doc: Add_Connectivity_and_Destination_Service
+  # - description: SAP S/4HANA Events
+  #   branch: s4h/eventing
+  #   baseBranch: cp/connectivity-service
+  #   doc: Application_setup_for_eventing
+  #   files:
+  #     - srv/external/data/API_BUSINESS_PARTNER-A_BusinessPartner.csv
+  #     - srv/risks-service-ui.cds
+#      - em.json       ???
+  # - description: Custom Domain
+  #   doc: CustomDomains
+  #   branch: cp/custom-domain
+  #   baseBranch: portal/service
+  #   files:
+  #     - xs-security.json
+  # - description: "CI/CD Pipeline<br/>(WILL BE REPLACED)"
+  #   branch: ci-cd/pipeline
+  #   baseBranch: cp/custom-domain
+  #   doc: Pipeline
+  # - description: "CI/CD (SAP)<br/>(WORK IN PROGRESS)"
+  #   branch: ci-cd-piper-sap
+  #   baseBranch: portal/service
+  #   doc:  CI-CD-Piper-SAP
+  # - description: "SaaS Application"
+  #   doc: SaaS
+  #   branch: saas-app
+  #   baseBranch: portal/service
+  #   files:
+  #    - approuter/server.js

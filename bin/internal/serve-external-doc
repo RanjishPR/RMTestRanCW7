@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -e
+
+cd "$(dirname "$(dirname "$(dirname $0)")")"
+
+./bin/internal/build-external-doc
+./bin/internal/http-server.js

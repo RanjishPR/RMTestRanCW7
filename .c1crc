@@ -1,0 +1,12 @@
+{
+  "sourceDir": ".",
+  "externalDir": "external",
+  "targetDir": "../Tutorials-Contribution/tutorials",
+  "prefix": "btp-app",
+  "hiddenOptionTitles": ["Canary"],
+  "internalTabTitle": "SAP",
+  "externalTabTitle": "External",
+  "exampleConfig": "examples.yml",
+  "tabSize": 4,
+  "repositoryUrl": "https://github.com/SAP-samples/cloud-cap-risk-management"
+}

@@ -1,0 +1,20 @@
+node_modules
+venv
+/package-lock.json
+.env
+cpapp_1.0.0.mtar
+.vscode/settings.json
+
+/docs-external-tmp
+/docs-gen
+/gh-pages-branch
+/tmp
+/gen
+
+# Generated files that do not need to be checked in
+docs/Examples.md
+docs/Module_Sequence.md
+docs/diffs/
+
+# Mac
+.DS_Store

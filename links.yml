@@ -1,0 +1,31 @@
+links:
+ - topic: CAP
+   links:
+    - "Getting Started": https://cap.cloud.sap/docs/get-started/
+    - Documentation: https://cap.cloud.sap
+ - topic: OData
+   links:
+    - "OData UI Vocabulary": https://github.com/SAP/odata-vocabularies/blob/master/vocabularies/UI.md
+    - "OData Common Vocabulary": "https://github.com/SAP/odata-vocabularies/blob/master/vocabularies/Common.md"
+ - topic: SAP Business Technology Platform 
+   links:
+     - Tutorials (SAP internal):https://github.wdf.sap.corp/CPET
+ - topic: CI/CD
+   links:
+     - 'Project Piper (SAP internal)': https://github.wdf.sap.corp/pages/ContinuousDelivery/piper-doc/stages/introduction/
+     - 'Project Piper': https://www.project-piper.io/stages/introduction/
+     - 'CI/CD Availability (Cloud Availability Center)': https://launchpad.support.sap.com/#/cacv2/2029347
+ - topic: FLP
+   links:
+     - 'Common Data Model Architecture': https://wiki.wdf.sap.corp/wiki/display/unifiedshell/CDM+3.0+Architecture+Concept+%28ACD%29+-+Cross+Platform+Architecture
+     - 'Common Data Model Schema': https://github.wdf.sap.corp/Portal-CF/cdm-schema
+ - topic: SAP HANA Cloud
+   links:
+     - 'SAP HANA Cloud Getting Started Guide': https://help.sap.com/viewer/db19c7071e5f4101837e23f06e576495/cloud/en-US/d0aa0ec935c1401e8deb3be35d49730b.html
+     - 'SAP HANA Cloud Administrator DBADMIN': https://help.sap.com/viewer/f9c5015e72e04fffa14d7d4f7267d897/cloud/en-US/5b35402c47b344d882ac13c661aff1c0.html
+ - topic: Fiori Elements
+   links:
+    - 'Value Help Support (CAP documentation)': https://cap.cloud.sap/docs/advanced/fiori#value-help-support
+    - 'Fiori Elements Tutorial (SAP internal)': https://github.wdf.sap.corp/pages/FE-SAMPLES/fe-samples-tutorials/
+    - 'Fiori Elements Sample App (SAP internal)': https://github.wdf.sap.corp/FE-SAMPLES/fe-samples-cap
+    

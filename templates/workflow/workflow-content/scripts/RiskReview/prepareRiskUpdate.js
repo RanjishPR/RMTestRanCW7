@@ -1,0 +1,1 @@
+$.context.nextRiskUpdate = $.context.pendingRiskUpdates.shift();

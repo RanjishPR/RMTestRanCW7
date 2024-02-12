@@ -1,0 +1,51 @@
+{
+  "name": "generator-cpes",
+  "version": "1.0.0",
+  "description": "",
+  "files": [
+    "bin",
+    "lib",
+    "generators",
+    "doc"
+  ],
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "dependencies": {
+    "debug": "^4.3.4",
+    "diff": "^4.0.2",
+    "fast-glob": "^3.2.5",
+    "glob": "^7.1.6",
+    "js-yaml": "^3.14.1",
+    "jsonpath": "^1.0.2",
+    "string.prototype.replaceall": "^1.0.5",
+    "yargs": "^16.2.0",
+    "yeoman-generator": "^1.1.1"
+  },
+  "devDependencies": {
+    "c1c": "../cpmscf-1dx-converter",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.4"
+  },
+  "scripts": {
+    "postinstall": "node ./bin/internal/virtual-env.js",
+    "test-watch": "npx nodemon -e '*.js' -w bin/ -x mocha bin/test",
+    "docs–serve": "node ./bin/internal/serve.js",
+    "1dx-build": "npm i && c1c convert",
+    "1dx-watch": "npm i && npx nodemon -e '*' -w docs/ -w external/ -w examples.yml -x c1c convert",
+    "external-docs-serve": "npx nodemon -e '*' -w docs/ -w external/ -x bash ./bin/internal/serve-external-doc",
+    "external-docs-build": "node ./bin/internal/build-external-doc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.wdf.sap.corp:CloudPlatformExtensionSuite/CPAppDevelopment.git"
+  },
+  "bin": [
+    "bin/cpes-node-debug",
+    "bin/internal/tutorial-update-code-snippets.js",
+    "bin/internal/tutorial-update-example.js",
+    "bin/internal/tutorial-snippet.js"
+  ],
+  "author": "SAP",
+  "license": "ISC"
+}

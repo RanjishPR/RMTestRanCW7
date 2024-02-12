@@ -1,0 +1,87 @@
+#!/bin/bash
+
+set -e
+
+if [ "$1" != "" ]; then
+    APP_NAME="$1"
+else
+    echo "Enter application name the you want to debug:"
+    echo
+    cf apps
+    echo -n "Application Name: "
+    read APP_NAME
+    if [ "$APP_NAME" == "" ]; then
+        echo "[ERROR] missing application name"
+        exit 1
+    fi
+fi
+
+SSH_PID_FILE="/tmp/cf-ssh-$APP_NAME.pid"
+
+if [ "$2" == "--background" ]; then
+    BACKGROUND=true
+fi
+
+if [ "$2" == "--stop" ]; then
+    if [ -f "$SSH_PID_FILE" ]; then
+        echo "Stop cf ssh $APP_NAME"
+        kill "$(cat "$SSH_PID_FILE")"
+        rm -f "$SSH_PID_FILE"
+    fi
+    exit
+fi
+
+
+DEBUG_INFO_URL=http://127.0.0.1:9229/json/list
+
+function extractFrontendUrl {
+    local JS
+    JS=$(cat <<EOF
+
+const fs = require('fs');
+const data = fs.readFileSync(0, 'utf-8');
+//console.error(data);
+try {
+    const json = JSON.parse(data);
+    console.log(json[0].devtoolsFrontendUrl);
+} catch ( error ) {
+    // ignore
+}
+EOF
+    )
+
+    node -e "$JS"
+}
+
+function getDebugInfo() {
+    for i in 1 2 3 4 5 6; do
+        curl -s --proxy "" "$DEBUG_INFO_URL" || true
+        URL="$(curl -s --proxy "" "$DEBUG_INFO_URL" | extractFrontendUrl )"
+        if [ "$URL" != "" ]; then
+            echo
+            echo "[INFO] Open URL in chrome to start debugging:"
+            echo "$URL"
+            echo
+            echo "[INFO] Press CTRL-C to stop"
+            exit 0
+        fi
+        echo -n "."
+        sleep 1
+    done
+    echo "[ERROR] Cannot find URL in $DEBUG_INFO_URL"
+}
+
+echo "[INFO] Don't forget that the app must run in debug mode:"
+echo "cf push $APP_NAME -c 'node --inspect server.js'"
+echo
+echo "[INFO] Open SSH tunnel to app $APP_NAME"
+
+if [ "$BACKGROUND" == "" ]; then
+    getDebugInfo &
+    cf ssh -N -T -L 9229:127.0.0.1:9229 "$APP_NAME"
+else
+    nohup cf ssh -N -T -L 9229:127.0.0.1:9229 "$APP_NAME" &
+    SSH_PID=$!
+    echo $SSH_PID >"$SSH_PID_FILE"
+    getDebugInfo || kill $SSH_PID; exit 1
+fi

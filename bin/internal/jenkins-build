@@ -1,0 +1,8 @@
+#!/bin/bash
+
+source ./venv/bin/activate
+
+mkdocs --version
+mkdocs build
+
+./bin/internal/build-external-doc

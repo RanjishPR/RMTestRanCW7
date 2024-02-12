@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Risk Management Email Notification</title>
+        <style>
+            h3 {
+                font-family: serif;
+            }
+            p, dl, dd, dt {
+                font-family: sans-serif;
+            }
+            dt {
+                text-indent: 5em;
+            }
+        </style>
+    </head>
+    <body>
+        <h3>Risk Review</h3>
+        <p>Dear ${context.riskOwner},</p>
+        <p>You have ${context.risks.size()} risks on your name. Please review them.</p>
+        <p>The Risk Management Team</p>
+    </body>
+</html>

@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -e
+
+rm -rf gh-pages-branch
+
+REPOSITORY="$1"
+if [ "$REPOSITORY" == "" ]; then
+    REPOSITORY="$(git remote get-url origin)"
+fi
+git clone $GIT_CREDENTIALS_CONFIG "$REPOSITORY" gh-pages-branch
+cd gh-pages-branch
+git checkout gh-pages
+git rm -rf .
+
+cp -r ../docs-gen/. .
+
+git add .
+
+git commit -m "Update doc $(date)"
+git push

@@ -1,0 +1,139 @@
+site_name: SAP BTP Application Development
+repo_url: https://github.tools.sap/CPES/CPAppDevelopment
+nav:
+    - Welcome:
+      - Welcome: 'README.md'
+      - "What's New": 'WhatsNew.md'
+      - Links: 'Links.md'
+      - Internal:
+          'Work in Progress':
+            - ZDM.md
+            - CI-CD-Piper-SAP.md
+            - CI-CD-BTP.md
+            - Kyma:
+                'Authentication': KymaAuth.md
+                'SaaS': KymaSaaS.md
+            - Pipeline:
+              - 'SAP_PassVault.md'
+              - 'JaaS_Setup.md'
+              - 'Pipeline.md'
+          Development:
+            - internal/TutorialDevelopmentIntro.md
+            - internal/TutorialDevelopmentSetup.md
+            - internal/TutorialBuild.md
+            - internal/TutorialReleaseCycle.md
+            - internal/TutorialDevelopment.md
+            - internal/TutorialExternalPublishing.md
+            - internal/TutorialNotes.md
+          'Issue Reporting': IssueReporting.md
+    - 'Tutorial':
+      - Tutorial Overview: 'Tutorial-Overview.md'
+      - 'Prepare Your Development Environment for CAP':
+        - "Prepare-Dev-Environment-CAP.md"
+        - "Set-Up-Appstudio.md"
+      - Create a CAP Service and SAP Fiori UI:
+        - "Introduction.md"
+        - "Create-CAP-Application.md"
+        - "Create-UI-Fiori-Elements.md"
+        - "CAP-Business-Logic.md"
+        - "Create-UI-Freestyle-SAPUI5.md"
+        - "Launchpage.md"
+        - "CAP-Roles.md"
+      - 'Deploy Your CAP Application on SAP BTP Cloud Foundry Environment':
+        - 'Prepare-BTP.md'
+        - 'HANA-App-Setup.md'
+        - 'HANA-Cloud-Setup.md'
+        - 'Prepare-XSUAA.md'
+        - 'CAP-MTA-Deployment.md'
+        - 'Work-Zone-Setup.md'
+        - 'Work-Zone-Subscribe.md'
+        - 'Role-Assignment.md'
+        - 'Logging.md'
+        - 'Undeploy-CAP-Application.md'
+      - 'Deploy Your CAP Application on SAP BTP Kyma Runtime':
+        - 'Kyma-Prepare-BTP.md'        
+        - 'Kyma-Prepare-Dev-Environment.md'
+        - 'Kyma-HANA-Cloud-Setup.md'
+        - 'Kyma-Prepare-XSUAA.md'
+        - 'Kyma-Add-Helm-Chart.md'
+        - 'Kyma-Deploy-Application.md'
+        - 'Kyma-Work-Zone-Setup.md'
+        - 'Kyma-Work-Zone-Subscribe.md'
+        - 'Kyma-Role-Assignment.md'
+        - 'Kyma-Undeploy-CAP-Application.md'
+      - 'CI-CD-BTP.md'
+      - 'Consume Remote Services':
+        - 'Add a Remote Service to Your Application':
+          - "Ext-Service-Add-Consumption.md"
+          - "Ext-Service-Consume-UI.md"
+        - 'Consume a Remote Service from SAP S/4HANA Cloud':
+          - "Ext-Service-S4HC-Register.md"
+          - "Ext-Service-S4HC-Use.md"
+        - 'Consume a Remote Service from SAP S/4HANA':
+          - 'Ext-Service-OData-Service.md'
+          - 'Ext-Service-Cloud-Connector.md'
+          - 'Ext-Service-S4HANA-Consume.md'
+      - 'Consume Events':
+        - 'Consume Events from SAP S/4HANA Cloud':
+          - 'Events-App-Setup-S4HC.md'
+          - 'Events-Enable-S4HC.md'
+          - 'Events-S4HC-Use.md'
+        - '[WIP] Consume Events from SAP S/4HANA':
+          - 'Events-App-Setup-S4H.md'
+          - 'Events-Config-CAP-S4H.md'
+          - 'S4HANA_event_setup_2020.md'
+          - 'Eventing_Demo.md'
+      - 'Analytics-Setup-Use.md'
+    - SaaS Application Tutorial (SAP internal):
+      - Prerequistes: 'Portal_and_SaaS_Info.md'
+      - 'MTA_Deployment.md'
+      - 'Portal.md'
+      - 'SaaS.md'
+      - 'SaaS_connectivity.md'
+      - 'Workflow.md'
+      - 'Add_Application_FLP.md'
+    - Additional Information:
+      - 'howtos/Debugging.md'
+      - 'howtos/Create_DL_for_Technical_Users.md'
+      - 'Setup_SAP_ID_Service.md'
+      - 'howtos/Local_Testing_SaaS.md'
+      - "[WIP] Observability":
+        - "Observability.md"
+        - "Four_Golden_Signals.md"
+        - "Observability_app_setup.md"
+        - "Consume_Application_Logging_Service.md"
+        - "Consume_Cloud_Logging_Service.md"
+        - "Consume_Availabilty_Service.md"
+        - "Consume_Dynatrace_service.md"
+        - "Correlate_Dynatrace_Kibana.md"
+        - "Consume_Alert_Nottification.md"
+        - "observability_app_fix.md"
+      - 'CustomDomains.md'
+    - Branches of the Tutorial Modules: 'Examples.md'
+theme:
+  name: material
+  logo: 'markdown/images/sap.svg'
+  palette:
+    primary: 'black'
+    accent: 'blue'
+markdown_extensions:
+  - codehilite
+  - admonition
+  - markdown_include.include:
+      base_path: docs
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.magiclink
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_div_format
+extra_css:
+  - styles/additonal.css
+  - https://unpkg.com/mermaid@8.4.8/dist/mermaid.css
+extra_javascript:
+  - https://unpkg.com/mermaid@8.4.8/dist/mermaid.min.js
+site_dir: docs-gen
+site_url: https://pages.github.tools.sap/CPES/CPAppDevelopment/

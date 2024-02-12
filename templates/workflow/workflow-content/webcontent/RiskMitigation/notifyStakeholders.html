@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Workflow Service Email Notification</title>
+        <style>
+            h3 {
+                font-family: serif;
+            }
+            p, dl, dd, dt {
+                font-family: sans-serif;
+            }
+            dt {
+                text-indent: 5em;
+            }
+        </style>
+    </head>
+    <body>
+        <h3>Employee onboarding completed</h3>
+        <p>Dear ${context.initiatorName},</p>
+        <p>The employee onboarding that you triggered has been successfully completed.
+        <p>Sincerely yours,</p>
+        <p>Cloud Platform Workflow</p>
+    </body>
+</html>

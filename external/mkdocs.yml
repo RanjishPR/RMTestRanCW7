@@ -1,0 +1,31 @@
+site_name: SAP BTP Application Development
+repo_url: https://github.com/SAP-samples/cloud-cap-risk-management
+nav:
+    - README.md
+    - 'Kyma.md'
+theme:
+  name: material
+  logo: 'markdown/images/sap.svg'
+  palette:
+    primary: 'black'
+    accent: 'blue'
+markdown_extensions:
+  - codehilite
+  - admonition
+  - markdown_include.include:
+      base_path: docs
+  - pymdownx.details
+  - pymdownx.tabbed
+  - pymdownx.magiclink
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_div_format
+extra_css:
+  - styles/additonal.css
+  - https://unpkg.com/mermaid@8.4.8/dist/mermaid.css
+extra_javascript:
+  - https://unpkg.com/mermaid@8.4.8/dist/mermaid.min.js
+site_dir: ../../gen/external/docs
+site_url: https://github.com/SAP-samples/cloud-cap-risk-management

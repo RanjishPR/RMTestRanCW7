@@ -1,0 +1,32 @@
+#!/bin/bash
+
+set -e
+
+cd "$(dirname "$(dirname "$(dirname $0)")")"
+
+# Prepare source folder for "mkdocs build"
+rm -rf tmp/src/external
+mkdir -p tmp/src/external/docs
+cp external/mkdocs.yml tmp/src/external
+
+# Save list of example branches and their base branches
+./bin/internal/print-external-examples-info.js >tmp/src/external/EXAMPLES
+
+# Prepare gen folder for publishing
+rm -rf tmp/gen/external
+mkdir -p tmp/gen
+cp -r external tmp/gen/
+rm -f tmp/gen/external/mkdocs.yml tmp/gen/external/FILES
+mkdir -p tmp/gen/external/docs
+
+./bin/internal/copy-external-files.js
+cp external/README.md tmp/src/external/docs
+
+./bin/internal/copy-external-templates.js
+
+source venv/bin/activate
+
+# Build
+cd tmp/src/external
+
+mkdocs build
